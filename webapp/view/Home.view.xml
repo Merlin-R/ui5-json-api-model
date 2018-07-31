@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mvc:View xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" controllerName="me.reichwald.jsonapi.controller.Home" displayBlock="true">
+  <Page>
+    <StandardListItem title="Users" press="toUsers" type="Active"/>
+    <StandardListItem title="Boards" press="toBoards" type="Active"/>
+    <StandardListItem title="Stories" press="toStories" type="Active"/>
+    <StandardListItem title="Tasks" press="toTasks" type="Active"/>
+
+  </Page>
+</mvc:View>

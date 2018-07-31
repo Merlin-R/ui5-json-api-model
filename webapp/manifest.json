@@ -1,0 +1,93 @@
+{
+  "_version": "0.1.1",
+  "sap.app": {
+    "_version": "0.1.1",
+    "applicationVersion": {
+      "version": "0.1.1"
+    },
+    "description": "{{app.description}}",
+    "i18n": "i18n/i18n.properties",
+    "id": "me.reichwald.jsonapi",
+    "title": "{{app.title}}",
+    "type": "application",
+    "dataSources": {}
+  },
+  "sap.ui": {
+    "_version": "0.1.1",
+    "deviceTypes": {
+      "desktop": true,
+      "phone": true,
+      "tablet": true
+    },
+    "supportedThemes": [
+      "sap_belize",
+      "sap_bluecrystal"
+    ],
+    "technology": "UI5"
+  },
+  "sap.ui5": {
+    "_version": "0.1.1",
+    "dependencies": {
+      "libs": {
+        "sap.m": {}
+      },
+      "minUI5Version": "1.46"
+    },
+    "models": {
+      "i18n": {
+        "settings": {
+          "bundleName": "me.reichwald.jsonapi.i18n.i18n"
+        },
+        "type": "sap.ui.model.resource.ResourceModel"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "me.reichwald.jsonapi.view",
+        "controlId": "app",
+        "controlAggregation": "detailPages"
+      },
+      "routes": [{
+        "name":     "home",
+        "pattern":  "",
+        "target":   "home"
+      },{
+        "name":     "users",
+        "pattern":  "users/:id:",
+        "target":   "users",
+        "subroutes": [{
+          "name":     "user",
+          "pattern":  "users/{id}",
+          "target":   "user"
+        }]
+      }],
+      "targets": {
+        "home": {
+          "viewName": "Home",
+          "controlAggregation": "masterPages",
+          "viewLevel": 0
+        },
+        "users": {
+          "viewName": "Users",
+          "controlAggregation": "masterPages",
+          "viewLevel": 1
+        },
+        "user": {
+          "viewName": "User",
+          "viewLevel": 2
+        }
+      }
+    },
+    "rootView": "me.reichwald.jsonapi.view.App",
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  },
+  "sap.platform.hcp": {
+    "uri": "jsonapi",
+    "_version": "1.1.0"
+  }
+}

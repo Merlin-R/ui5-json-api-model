@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mvc:View
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:mvc="sap.ui.core.mvc"
+  controllerName="me.reichwald.jsonapi.controller.Users"
+  displayBlock="true">
+  <Page title="Users">
+    <List items="{/users}">
+      <StandardListItem
+        title="{name} ({email})"
+        icon="sap-icon://employee"
+        description="{id}"
+        info="{boards/length}"
+        type="Active"
+        press="toUser"
+      />
+    </List>
+    <StandardListItem
+      title="Add new user"
+      icon="sap-icon://add"
+      type="Active"
+      press="newUser"/>
+  </Page>
+</mvc:View>

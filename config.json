@@ -1,0 +1,9 @@
+{
+  "host": "http://localhost:3000",
+  "mongodb": {
+    "url": "mongodb://localhost/scrumboard"
+  },
+  "express": {
+    "port": 3000
+  }
+}
