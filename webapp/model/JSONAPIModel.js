@@ -1,11 +1,18 @@
 sap.ui.define([
   "sap/ui/model/Model",
-  "sap/ui/model/ContextBinding",
+  "./JSONAPIContextBinding",
   "./JSONAPIListBinding",
   "./JSONAPIPropertyBinding",
   "./JSONAPIURLBuilder",
 ], function( Model, ContextBinding, ListBinding, PropertyBinding, URLBuilder )
 {
+  function nextId()
+  {
+    return Date.now().toString(16).padStart(12,'0')
+         + (nextId.counter++&0xFF).toString(16).padStart(2,'0')
+         + (Math.random()*0xFF&0xFF).toString(16).padStart(2,'0');
+  }
+  nextId.counter = 0;
 
   var JSONAPIModel = Model.extend("me.reichwald.model.jsonapi.JSONAPIModel", {
 
@@ -27,15 +34,43 @@ sap.ui.define([
       return new ContextBinding( this, path, context, params );
     },
 
+    createBindingContext: function( path, context, params, callback, reload ) {
+      if ( !callback ) callback = () => null;
+      var base = this.resolve( path, context );
+      if ( !base ) {
+        callback( null );
+        return null;
+      }
+      var canonical = this.resolve( path, context, true );
+      if ( !reload ) {
+        var cxt = this.getContext( canonical );
+        callback( cxt );
+        return cxt;
+      } else {
+        this.getOne( path, context ).then( data => {
+          var path = '/' + data.__type + '/' + data.__id;
+          var cxt = this.getContext( path );
+          callback( cxt );
+        })
+      }
+    },
+
     getList: function( path, context, top, skip, sorters, filters, expands, selects ) {
       var url = this.buildRequestUrl( path, context, top, skip, sorters, filters, expands, selects );
       return $.ajax({ method: 'GET', url: url, headers: { 'Content-Type': 'application/vnd.api+json' } }).then( this.processList.bind( this ) );
     },
 
+    getOne: function( path, context, expands, selects ) {
+      var url = this.buildRequestUrl( path, context, null, null, null, null, expands, selects );
+      return $.ajax({ method: 'GET', url: url, headers: { 'Content-Type': 'application/vnd.api+json' } }).then( this.processElement.bind( this ) );
+    },
+
     getProperty: function( path, context ) {
       var base = this.resolve( path, context );
       if ( !base ) return;
-      return base.substr( 1 ).split( '/' ).reduce( ( leaf, key ) => leaf[ key ], this.oData );
+      try {
+        return base.substr( 1 ).split( '/' ).reduce( ( leaf, key ) => leaf[ key ], this.oData );
+      } catch ( e ) { return undefined; }
     },
 
     processList: function( data ) {
@@ -88,6 +123,14 @@ sap.ui.define([
         .include( expands )
         .select( selects )
         .toString();
+    },
+
+    createNewId: function( type ) {
+      var id = ':new:' + nextId();
+      if ( !this.oData[ type ]   ) this.oData[ type ] = {};
+      if ( !this.pending[ type ] ) this.pending[ type ] = {};
+      this.oData[ type ][ id ] = this.pending[ type ][ id ] = { __id: id, id: id, __new: true };
+      return id;
     },
 
     getRequestUrl: function( path ) {

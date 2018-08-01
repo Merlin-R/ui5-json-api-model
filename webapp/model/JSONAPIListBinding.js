@@ -34,11 +34,11 @@ sap.ui.define([
     },
 
     calculateTop: function() {
-      return null;
+      return undefined;
     },
 
     calculateSkip: function() {
-      return null;
+      return undefined;
     },
 
     fetch: function( force ) {

@@ -6,7 +6,7 @@
   controllerName="me.reichwald.jsonapi.controller.User"
   displayBlock="true">
   <Page title="{name} ({email})">
-
+    <Label text="{/users/5b5f193e797d0704863c4fb2/name}" />
 
   </Page>
 </mvc:View>
