@@ -45,7 +45,7 @@ sap.ui.define([
       if ( force || !this.loaded && !this.loading ) {
         this.suspend();
         this.loading = true;
-        this.settings.model.getList(
+        this.settings.model.readList(
           this.settings.path,
           this.settings.context,
           this.calculateTop(),
@@ -67,7 +67,7 @@ sap.ui.define([
 
     createContext: function( entry )
     {
-      return this.settings.model.getContext( '/' + entry.__type + '/' + entry.__id );
+      return this.settings.model.getContext( '/' + entry.type + '/' + entry.id );
     },
 
   });

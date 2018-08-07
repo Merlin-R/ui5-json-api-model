@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<mvc:View
-  xmlns="sap.m"
-  xmlns:l="sap.ui.layout"
-  xmlns:mvc="sap.ui.core.mvc"
-  controllerName="me.reichwald.jsonapi.controller.User"
-  displayBlock="true">
-  <Page title="{name} ({email})">
-    <Label text="{/users/5b5f193e797d0704863c4fb2/name}" />
+<mvc:View xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc" controllerName="me.reichwald.jsonapi.controller.User" displayBlock="true">
+  <Page title="{attributes/name} ({attributes/email})">
+    <f:SimpleForm editable="true">
+      <Label text="Username"/>
+      <Input value="{attributes/name}"/>
 
+      <Label text="Email"/>
+      <Input value="{attributes/email}"/>
+
+    </f:SimpleForm>
+    <footer>
+      <Toolbar>
+        <ToolbarSpacer />
+        <Button text="Delete" icon="sap-icon://delete"  press="onDelete" />
+        <Button text="Cancel" icon="sap-icon://decline" press="onCancel" />
+        <Button text="Save"   icon="sap-icon://save"    press="onSave" />
+      </Toolbar>
+    </footer>
   </Page>
 </mvc:View>

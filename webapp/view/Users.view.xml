@@ -8,10 +8,10 @@
   <Page title="Users">
     <List items="{/users}">
       <StandardListItem
-        title="{name} ({email})"
+        title="{attributes/name} ({attributes/email})"
         icon="sap-icon://employee"
         description="{id}"
-        info="{boards/length}"
+        info="{relationships/boards/length}"
         type="Active"
         press="toUser"
       />

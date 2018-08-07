@@ -9,13 +9,8 @@ sap.ui.define([
     constructor: function( model, path, context, params ) {
       PropertyBinding.apply( this, arguments );
       this.initial = true;
-      this.settings = {
-        model: model,
-        path: path,
-        context: context,
-        params: params
-      };
       this.value = this._getValue();
+      this.attachChange( () => this.value = this._getValue() );
     },
 
     getValue: function() {
@@ -23,7 +18,19 @@ sap.ui.define([
     },
 
     _getValue: function() {
-      return this.settings.model.getProperty( this.settings.path, this.settings.context );
+      return this.oModel.getProperty( this.sPath , this.oContext );
+    },
+
+    setValue: function( val ) {
+      this.oModel.setProperty( this.sPath, val, this.oContext );
+      this.refresh();
+    },
+
+    refresh: function() {
+      this.value = this._getValue();
+      var res = PropertyBinding.prototype.refresh.apply( this, arguments );
+      this.resume();
+      return res;
     }
   });
   return JSONAPIPropertyBinding;
