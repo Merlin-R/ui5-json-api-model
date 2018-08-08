@@ -30,7 +30,10 @@ sap.ui.define(["./BaseController"], function(Base) {
     },
 
     onCancel: function() {
-      this.getModel().cancelChanges( this.getView().getElementBinding().getPath() );
+      var path = this.getView().getElementBinding().getPath();
+      this.getModel().cancelChanges( path );
+      if ( path.indexOf( ':new:' ) )
+        this.getRouter().navTo('users');
     },
   });
 });

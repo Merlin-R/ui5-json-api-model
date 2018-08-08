@@ -284,7 +284,7 @@ sap.ui.define([
     },
 
     cancelChanges: function( path, context ) {
-      this.setCurrentProperty('/',{})
+      this.resetProperty( path, context );
     }
 
   });
