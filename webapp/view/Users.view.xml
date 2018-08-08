@@ -6,7 +6,12 @@
   controllerName="me.reichwald.jsonapi.controller.Users"
   displayBlock="true">
   <Page title="Users">
-    <List items="{/users}">
+    <subHeader>
+      <Toolbar>
+        <SearchField liveChange="onSearch" />
+      </Toolbar>
+    </subHeader>
+    <List items="{/users}" id="list">
       <StandardListItem
         title="{attributes/name} ({attributes/email})"
         icon="sap-icon://employee"
@@ -21,5 +26,13 @@
       icon="sap-icon://add"
       type="Active"
       press="newUser"/>
+    <footer>
+      <Toolbar>
+        <ToolbarSpacer />
+        <Button icon="sap-icon://asc"  press="onSortAsc"  />
+        <Button icon="sap-icon://desc" press="onSortDesc" />
+        <ToolbarSpacer />
+      </Toolbar>
+    </footer>
   </Page>
 </mvc:View>

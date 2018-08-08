@@ -8,8 +8,16 @@ mongoose.connect( config.mongodb.url );
 const Strategy = require('./data/Strategy');
 const app = express();
 
-
 app.use( express.static('webapp') );
+
+app.use( (req,resp,next) => {
+  let url = req.url;
+  let qstart = url.indexOf('?');
+  if ( qstart === -1 ) return next();
+  let query = url.substring( qstart ).replace(/(%3A|%2C|%60)/g,decodeURIComponent);
+  req.url = url.substring( 0, qstart ) + query;
+  next();
+})
 
 // Render the docs at /
 app.get("/api/schema/:type", (req,resp,next) => {

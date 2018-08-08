@@ -29,6 +29,21 @@ sap.ui.define([
       this.fetch();
     },
 
+    filter: function( filters ) {
+      this.settings.filters = filters;
+      this.fetch( true );
+    },
+
+    refresh: function( force ) {
+      this.fetch( true );
+      return ListBinding.prototype.refresh.apply( this, arguments );
+    },
+
+    sort: function( sorters ) {
+      this.settings.sorters = Array.from( arguments );
+      this.fetch( true );
+    },
+
     getContexts: function() {
       return this.contexts;
     },
